@@ -1,0 +1,4 @@
+https://user.eng.umd.edu/~fywang/assets/lab4/html/lab4.html
+https://moodle.cri.epita.fr/pluginfile.php/72499/mod_resource/content/7/CODO_lossy.pdf
+https://moodle.cri.epita.fr/pluginfile.php/72500/mod_resource/content/6/JPEG_tables.pdf
+https://colab.research.google.com/drive/1iLOYCXayEzhjjyHNJvHcrHNRNiQyKTlU
