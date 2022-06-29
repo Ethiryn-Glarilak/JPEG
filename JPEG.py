@@ -222,8 +222,7 @@ class JPEG(DCT):
                 count_0 = 0
         return jpeg
 
-    def extractDC(self, last_value : int = 0) -> tuple[list[int], int]:
-        index = 1
+    def extractDC(self, index = 1, last_value : int = 0) -> tuple[list[int], int]:
         DC_code = {
             "010"       : 0,  "011"       : 1,
             "100"       : 2,  "00"        : 3,
@@ -284,7 +283,7 @@ class JPEG(DCT):
                 continue
             if AC_code.get(self.jpeg[index:i]) == "EOB":
                 AC.append(AC_code.get(self.jpeg[index:i]))
-                return AC
+                return AC, i
             index_end = i + AC_code.get(self.jpeg[index:i])[1]
             for _ in range(AC_code.get(self.jpeg[index:i])[0]):
                 AC.append(0)
@@ -310,18 +309,19 @@ class JPEG(DCT):
     def JDm1_calcul(self, image : numpy.ndarray, around : int = 2) -> numpy.ndarray:
         return numpy.around(numpy.linalg.inv(self.d8).dot(image).dot(self.d8), around)
 
-    def decode(self, last_value : int = 0, value : int = 50) -> numpy.ndarray:
-        image, index = self.extractDC(last_value)
-        image.extend(self.extractAC(index))
+    def decode(self, start = 0, last_value : int = 0, value : int = 50) -> numpy.ndarray:
+        image, index = self.extractDC(start, last_value)
+        extend, index = self.extractAC(index)
+        image.extend(extend)
         image = self.list_to_zigzag(image) * self.coefficient(value)
         image = self.JDm1_calcul(image)
-        return image + 128
+        return image + 128, index
 
     # --- Method use to show the difference state of compression --- #
     def show_image_after_decompress(self, last_value : int = 0):
         image_encode = self.encode(last_value)
         self.jpeg = image_encode
-        image_decode = self.decode(last_value)
+        image_decode, index = self.decode(last_value)
         plt.imshow(image_decode, cmap = "gray", vmin = 0, vmax = 255)
         plt.show()
 
