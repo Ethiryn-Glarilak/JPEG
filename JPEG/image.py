@@ -82,12 +82,12 @@ class Image:
                 if start >= len(self.jpeg):
                     jpeg = False
         if self.color:
-            image[0] = self.contact_8x8(image[0], shape)
-            image[1] = self.contact_8x8(image[1], shape)
-            image[2] = self.contact_8x8(image[2], shape)
+            image[0] = self.concat_8x8(image[0], shape)
+            image[1] = self.concat_8x8(image[1], shape)
+            image[2] = self.concat_8x8(image[2], shape)
             self.image_decode = self.YUVtoRGB(numpy.moveaxis(numpy.array(image), 0, -1))
         else:
-            self.image_decode = self.contact_8x8(image, shape)
+            self.image_decode = self.concat_8x8(image, shape)
         return self
 
     def split_8x8(self):
@@ -110,7 +110,7 @@ class Image:
             for j in range(0, self.image.shape[1], 8):
                 yield self.image[i:i+8, j:j+8]
 
-    def contact_8x8(self, jpeg : list[numpy.ndarray], shape : numpy.ndarray) -> numpy.ndarray:
+    def concat_8x8(self, jpeg : list[numpy.ndarray], shape : numpy.ndarray) -> numpy.ndarray:
         # concatenate jpeg into image nxm
         image = jpeg[0]
         for j in range(1, shape[1] // 8):
