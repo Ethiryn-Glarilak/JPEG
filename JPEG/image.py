@@ -77,7 +77,7 @@ class Image:
                 if start[0] >= len(self.jpeg[0]) or start[1] >= len(self.jpeg[1]) or start[2] >= len(self.jpeg[2]):
                     jpeg = False
             else:
-                value, start = decode(self.jpeg, start, last_value, coefficient)
+                value, start, DC = decode(self.jpeg, start, last_value, coefficient)
                 image.append(value)
                 if start >= len(self.jpeg):
                     jpeg = False

@@ -319,9 +319,13 @@ class JPEG(DCT):
 
     # --- Method use to show the difference state of compression --- #
     def show_image_after_decompress(self, last_value : int = 0):
+        image = self.image.copy()
         image_encode = self.encode(last_value)
         self.jpeg = image_encode
         image_decode, index = self.decode(last_value)
+        plt.subplot(1, 2, 1)
+        plt.imshow(image, cmap = "gray", vmin = 0, vmax = 255)
+        plt.subplot(1, 2, 2)
         plt.imshow(image_decode, cmap = "gray", vmin = 0, vmax = 255)
         plt.show()
 

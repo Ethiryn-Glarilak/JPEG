@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import JPEG
 import numpy
 
-def image() -> numpy.ndarray:
+def get_image() -> numpy.ndarray:
     """Return image"""
     return numpy.array([
         [52, 55, 61,  66,  70,  61, 64, 73,],
@@ -21,19 +21,19 @@ image_3 = cv2.cvtColor(cv2.imread("./image_chat.png"), cv2.COLOR_BGR2RGB)
 # image_2 = (plt.imread("./image_chat.png") * 255).astype(int)
 
 # image_4 = (plt.imread("./image_chat.png", "RGB")[:8, :16] * 255).astype(int)
-image = JPEG.Image(image = image_3)
+image = JPEG.Image(image = get_image())
 # print(image.image)
 print("Encode")
-image.encode()
+image.encode(-33)
 print("Decode")
-test = image.decode()
+image.decode()
 plt.subplot(1, 2, 2)
-plt.imshow(test.image_decode.astype(int))
+plt.imshow(image.image_decode.astype(int), cmap = "gray", vmin = 0, vmax = 255)
 plt.subplot(1, 2, 1)
-plt.imshow(image_3)
+plt.imshow(image.image, cmap = "gray", vmin = 0, vmax = 255)
 print("Fin")
 plt.show()
 # plt.imshow(test.image.astype(int))
 # plt.show()
-# print(numpy.max(test.image_decode))
-# print(numpy.min(test.image_decode))
+print(numpy.max(image.image_decode))
+print(numpy.min(image.image_decode))
